@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MozillaObservatory", "MozillaObservatory\MozillaObservatory.csproj", "{888FF87A-DE86-4B53-ACA6-15960CA55EA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MozillaObservatory.Cli", "MozillaObservatory.Cli\MozillaObservatory.Cli.csproj", "{3FE29C35-F262-40CC-9F56-482DF3900F7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{888FF87A-DE86-4B53-ACA6-15960CA55EA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888FF87A-DE86-4B53-ACA6-15960CA55EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888FF87A-DE86-4B53-ACA6-15960CA55EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888FF87A-DE86-4B53-ACA6-15960CA55EA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FE29C35-F262-40CC-9F56-482DF3900F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FE29C35-F262-40CC-9F56-482DF3900F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FE29C35-F262-40CC-9F56-482DF3900F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FE29C35-F262-40CC-9F56-482DF3900F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0A1CBD1-2429-4B5C-81E7-A504D73C8BFD}
+	EndGlobalSection
+EndGlobal
