@@ -46,6 +46,21 @@ namespace MozillaObservatory.Serializables
         public long TestsQuantity { get; set; }
     }
 
+    public class HistoricalScan
+    {
+        [JsonProperty("end_time")]
+        public DateTime EndTime { get; set; }
+
+        [JsonProperty("grade")]
+        public Grades Grade { get; set; }
+
+        [JsonProperty("scan_id")]
+        public long ScanId { get; set; }
+
+        [JsonProperty("score")]
+        public long Score { get; set; }
+    }
+
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ScanStates
     {

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,7 +29,18 @@ namespace MozillaObservatory
         #endregion
 
         #region API functions
-        public async Task<Scan> Analyze(string host, bool hideFromPublicResults, bool forceRescan)
+        public async Task<Scan> InvokeAccessment(string host, bool hideFromPublicResults = false, bool forceRescan = false)
+        {
+            var uriBuilder = new UriBuilder(new Uri(ApiEndpoint, "analyze"))
+            {
+                Query = $"host={Uri.EscapeUriString(host)}&hidden={hideFromPublicResults}&rescan={forceRescan}"
+            };
+            var responseContent = await _httpClient.GetStringAsync(uriBuilder.Uri);
+            // TODO: error handling
+            return JsonConvert.DeserializeObject<Scan>(responseContent);
+        }
+
+        public async Task<Scan> GetAccessment(string host, bool hideFromPublicResults, bool forceRescan)
         {
             var uriBuilder = new UriBuilder(new Uri(ApiEndpoint, "analyze"))
             {
@@ -55,6 +67,57 @@ namespace MozillaObservatory
             // TODO: error handling
             return JsonConvert.DeserializeObject<TestResults>(responseContent);
         }
+
+        public async Task<IList<RecentScan>> GetRecentScans(long? minimumScore = null, long? maximumScore = null)
+        {
+            var uriBuilder = new UriBuilder(new Uri(ApiEndpoint, "getRecentScans"));
+            if (minimumScore != null && maximumScore != null)
+                uriBuilder.Query = $"min={minimumScore}&max={maximumScore}";
+            else if (minimumScore != null)
+                uriBuilder.Query = $"min={minimumScore}";
+            else if (maximumScore != null)
+                uriBuilder.Query = $"max={maximumScore}";
+
+            var responseContent = await _httpClient.GetStringAsync(uriBuilder.Uri);
+            // TODO: error handling
+            var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
+            return dict.Select(x => new RecentScan
+            {
+                Hostname = x.Key,
+                Grade = x.Value.ToEnum<Grades>()
+            }).ToList();
+        }
+
+        public async Task<IList<HistoricalScan>> GetHostHistory(string host)
+        {
+            var uriBuilder = new UriBuilder(new Uri(ApiEndpoint, "getHostHistory"))
+            {
+                Query = $"host={Uri.EscapeUriString(host)}"
+            };
+
+            var responseContent = await _httpClient.GetStringAsync(uriBuilder.Uri);
+            // TODO: error handling
+            return JsonConvert.DeserializeObject<IList<HistoricalScan>>(responseContent);
+        }
+
+        public async Task<Dictionary<Grades, long>> GetGradeDistribution()
+        {
+            var uriBuilder = new UriBuilder(new Uri(ApiEndpoint, "getGradeDistribution"));
+            var responseContent = await _httpClient.GetStringAsync(uriBuilder.Uri);
+
+            // TODO: error handling
+            return JsonConvert.DeserializeObject<Dictionary<Grades, long>>(responseContent);
+        }
+
+        public async Task<Dictionary<ScanStates, long>> GetScannerStates()
+        {
+            var uriBuilder = new UriBuilder(new Uri(ApiEndpoint, "getScannerStates"));
+            var responseContent = await _httpClient.GetStringAsync(uriBuilder.Uri);
+
+            // TODO: error handling
+            return JsonConvert.DeserializeObject<Dictionary<ScanStates, long>>(responseContent);
+        }
+
         #endregion
 
         #region IDisposable Support
